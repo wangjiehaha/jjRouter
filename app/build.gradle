@@ -1,16 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'CLRouter'
+apply plugin: 'CLRouter'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 27
 
     defaultConfig {
-        applicationId "com.cv.led.clrouter"
+        applicationId "com.cv.led.cltest"
         minSdkVersion 25
-        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -36,10 +34,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    annotationProcessor project(path: ':compiler')
     annotationProcessor "com.cv.led:compiler:1.0.3"
     implementation "com.cv.led:interface:1.0.2"
-//    implementation "com.cv.led:clrouter:1.0.2"
-//    implementation project(path: ':interface')
     implementation project(path: ':clrouter')
 }
