@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply from: "../local.repository.gradle"
+
+uploadArchives{
+    repositories.mavenDeployer{
+        pom.artifactId = "interface"
+        pom.version = "1.0.0"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

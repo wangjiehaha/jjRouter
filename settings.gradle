@@ -1,0 +1,4 @@
+rootProject.name='ClRouter'
+include ':app'
+include ':interface'
+include ':plugin'
