@@ -1,10 +1,10 @@
 package com.cv.led.annotation
 
 class ServiceImpl(
-    private val key: String?,
-    private val implementation: String = "",
-    private val implementationClazz: Class<*>?,
-    private val singleton: Boolean
+    val key: String?,
+    val implementation: String = "",
+    val implementationClazz: Class<*>?,
+    val singleton: Boolean
 ) {
 
     constructor(
@@ -28,8 +28,9 @@ class ServiceImpl(
     companion object {
         const val SPLITTER = ":"
         const val SINGLETON = "singleton"
-        private const val DEFAULT_IMPL_KEY = "_service_default_impl"
+        const val DEFAULT_IMPL_KEY = "_service_default_impl"
 
+        @JvmStatic
         fun checkConflict(
             interfaceName: String?,
             impl: ServiceImpl?,

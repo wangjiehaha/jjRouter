@@ -4,7 +4,7 @@ apply from: "../local.repository.gradle"
 uploadArchives{
     repositories.mavenDeployer{
         pom.artifactId = "plugin"
-        pom.version = "1.0.0"
+        pom.version = "1.0.1"
     }
 }
 
@@ -14,7 +14,7 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation "com.android.tools.build:gradle:3.6.2"
-    implementation "com.cv.led:interface:1.0.0"
+    implementation "com.cv.led:interface:1.0.1"
 }
 
 sourceCompatibility = "1.8"
