@@ -1,24 +1,20 @@
 import org.gradle.internal.jvm.Jvm
 apply plugin: 'java'
-apply plugin: 'kotlin'
 apply from: "../local.repository.gradle"
 
 uploadArchives{
     repositories.mavenDeployer{
         pom.artifactId = "compiler"
-        pom.version = "1.0.1"
+        pom.version = "1.0.3"
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    annotationProcessor'com.google.auto.service:auto-service:1.0-rc4'
     implementation 'com.squareup:javapoet:1.9.0'
     compileOnly files(Jvm.current().getToolsJar())
-    implementation "com.cv.led:interface:1.0.1"
+    implementation "com.cv.led:interface:1.0.2"
 }
-
-sourceCompatibility = "7"
-targetCompatibility = "7"

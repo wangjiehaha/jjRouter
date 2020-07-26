@@ -5,7 +5,7 @@ apply from: "../local.repository.gradle"
 uploadArchives{
     repositories.mavenDeployer{
         pom.artifactId = "interface"
-        pom.version = "1.0.1"
+        pom.version = "1.0.2"
     }
 }
 

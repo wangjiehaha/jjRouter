@@ -40,35 +40,24 @@ public abstract class BaseProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
+        System.out.println("============= BaseProcessor init ============");
         filer = processingEnvironment.getFiler();
         types = processingEnvironment.getTypeUtils();
         elements = processingEnvironment.getElementUtils();
     }
 
-    /**
-     * 从字符串获取TypeElement对象
-     */
     public TypeElement typeElement(String className) {
         return elements.getTypeElement(className);
     }
 
-    /**
-     * 从字符串获取TypeMirror对象
-     */
     public TypeMirror typeMirror(String className) {
         return typeElement(className).asType();
     }
 
-    /**
-     * 从字符串获取ClassName对象
-     */
     public ClassName className(String className) {
         return ClassName.get(typeElement(className));
     }
 
-    /**
-     * 从字符串获取TypeName对象，包含Class的泛型信息
-     */
     public TypeName typeName(String className) {
         return TypeName.get(typeMirror(className));
     }
@@ -89,24 +78,15 @@ public abstract class BaseProcessor extends AbstractProcessor {
         return element != null && types.isSubtype(element.asType(), typeMirror);
     }
 
-    /**
-     * 非抽象类
-     */
     public boolean isConcreteType(Element element) {
         return element instanceof TypeElement && !element.getModifiers().contains(
                 Modifier.ABSTRACT);
     }
 
-    /**
-     * 非抽象子类
-     */
     public boolean isConcreteSubType(Element element, String className) {
         return isConcreteType(element) && isSubType(element, className);
     }
 
-    /**
-     * 非抽象子类
-     */
     public boolean isConcreteSubType(Element element, TypeMirror typeMirror) {
         return isConcreteType(element) && isSubType(element, typeMirror);
     }
@@ -125,9 +105,6 @@ public abstract class BaseProcessor extends AbstractProcessor {
         }
     }
 
-    /**
-     * 创建Handler。格式：<code>"com.demo.TestActivity"</code> 或 <code>new TestHandler()</code>
-     */
     public CodeBlock buildHandler(boolean isActivity, Symbol.ClassSymbol cls) {
         CodeBlock.Builder b = CodeBlock.builder();
         if (isActivity) {
@@ -138,21 +115,6 @@ public abstract class BaseProcessor extends AbstractProcessor {
         return b.build();
     }
 
-    /**
-     * 辅助工具类，用于生成ServiceInitClass，格式如下：
-     * <pre>
-     * package com.sankuai.waimai.router.generated.service;
-     *
-     * import com.sankuai.waimai.router.service.ServiceLoader;
-     *
-     * public class &lt;ClassName&gt; {
-     *     public static void init() {
-     *         ServiceLoader.put(com.xxx.interface1.class, "key1", com.xxx.implementsA.class, false);
-     *         ServiceLoader.put(com.xxx.interface2.class, "key2", com.xxx.implementsB.class, false);
-     *     }
-     * }
-     * </pre>
-     */
     public class ServiceInitClassBuilder {
 
         private final String className;
@@ -162,6 +124,7 @@ public abstract class BaseProcessor extends AbstractProcessor {
         public ServiceInitClassBuilder(String className) {
             this.className = className;
             this.builder = CodeBlock.builder();
+            System.out.println("typeElement(className) = " + typeElement(Const.SERVICE_LOADER_CLASS));
             this.serviceLoaderClass = className(Const.SERVICE_LOADER_CLASS);
         }
 
@@ -176,7 +139,6 @@ public abstract class BaseProcessor extends AbstractProcessor {
         }
 
         public ServiceInitClassBuilder putDirectly(String interfaceName, String key, String implementName, boolean singleton) {
-            // implementName是注解生成的类，直接用$L拼接原始字符串
             builder.addStatement("$T.put($T.class, $S, $L.class, $L)",
                     serviceLoaderClass,
                     className(interfaceName),

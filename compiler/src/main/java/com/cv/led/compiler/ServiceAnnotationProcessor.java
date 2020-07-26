@@ -44,6 +44,7 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
     }
 
     private void processAnnotations(RoundEnvironment env) {
+        System.out.println("=========== Begin collect Annotations ==========");
         for (Element element : env.getElementsAnnotatedWith(RouterService.class)) {
             if (!(element instanceof Symbol.ClassSymbol)) {
                 continue;
@@ -72,8 +73,8 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
                         continue;
                     }
                     if (!isConcreteSubType(cls, mirror)) {
-                        String msg = cls.className() + "没有实现注解" + RouterService.class.getName()
-                                + "标注的接口" + mirror.toString();
+                        String msg = cls.className() + "no implementation annotations" + RouterService.class.getName()
+                                + "annotated interface" + mirror.toString();
                         throw new RuntimeException(msg);
                     }
                     String interfaceName = getClassName(mirror);
@@ -104,9 +105,11 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
                 }
             }
         }
+        System.out.println("=========== End collect Annotations ==========");
     }
 
     private void generateInitClass() {
+        System.out.println("mEntityMap size " + mEntityMap.size() + ", mHash " + mHash);
         if (mEntityMap.isEmpty() || mHash == null) {
             return;
         }
@@ -114,6 +117,9 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
         for (Map.Entry<String, Entity> entry : mEntityMap.entrySet()) {
             for (ServiceImpl service : entry.getValue().getMap().values()) {
                 generator.put(entry.getKey(), service.getKey(), service.getImplementation(), service.getSingleton());
+                System.out.println("entry.getKey() = " + entry.getKey() + ", service.getKey() = " + service.getKey()
+                        + ", service.getImplementation() = " + service.getImplementation()
+                        + ", service.getSingleton() = " + service.getSingleton());
             }
         }
         generator.build();
